@@ -50,7 +50,3 @@ seq = "CTATTTTCGAGGACCTTGTCACCTTGAGCCCAAGAGAGCCAAGATTTAAATTTTCCTATGACTTGATGCAAAT
 result = score_bio_transcription_translation(seq)
 print(result)
 
-{
-  "transcription_percent": 25.0,
-  "translation_percent": 33.33333333333333
-}
