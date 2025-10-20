@@ -1,29 +1,49 @@
-# TDH3 Promoter Sequence Analysis
+# 🧬 TDH3 Promoter Sequence Analysis
 
-#Input Sequence
-promoter_seq = ('CTATTTTCGAGGACCTTGTCACCTTGAGCCCAAGAGAGCCAAGATTTAAATTTTCCTATGACTTGATGCAAATTCCCAAAGCTAATAACATGCAAGACACGTACGGTCAAGAAGACATATTTGACCTCTTAACAGGTTCAGACGCGACTGCCTCATCAGTAAGACCCGTTGAAAAGAACTTACCTGAAAAAAACGAATATATACTAGCGTTGAATGTTAGCGTCAACAACAAGAAGTTTAATGACGCGGAGGCCAAGGCAAAAAGATTCCTTGATTACGTAAGGGAGTTAGAATCATTTTGAATAAAAAACACGCTTTTTCAGTTCGAGTTTATCATTATCAATACTGCCATTTCAAAGAATACGTAAATAATTAATAGTAGTGATTTTCCTAACTTTATTTAGTCAAAAAATTAGCCTTTTAATTCTGCTGTAACCCGTACATGCCCAAAATAGGGGGCGGGTTACACAGAATATATAACATCGTAGGTGTCTGGGTGAACAGTTTATTCCTGGCATCCACTAAATATAATGGAGCCCGCTTTTTAAGCTGGCATCCAGAAAAAAAAAGAATCCCAGCACCAAAATATTGTTTTCTTCACCAACCATCAGTTCATAGGTCCATTCTCTTAGCGCAACTACAGAGAACAGGGGCACAAACAGGCAAAAAACGGGCACAACCTCAATGGAGTGATGCAACCTGCCTGGAGTAAATGATGACACAAGGCAATTGACCCACGCATGTATCTATCTCATTTTCTTACACCTTCTATTACCTTCTGCTCTCTCTGATTTGGAAAAAGCTGAAAAAAAAGGTTGAAACCAGTTCCCTGAAATTATTCCCCTACTTGACTAATAAGTATATAAAGACGGTAGGTATTGATTGTAATTCTGTAAATCTATTTCTTAAACTTCTTAAATTCTACTTTTAAGTTAGTCTTTTTTTTAGTTTTAAAACACCAAGAACTTAGTTTCGAATAAACACACATAAACAAACAAATGCGATG')
+---
 
+## 🧩 1. 분석 코드 주요 특징
 
-#분석 코드 주요 특징
-마지막 ATG 기준 검색: 서열에서 마지막 ATG 위치를 기준으로 upstream 영역을 추출
+| 분석 항목 | 탐색 기준 | 비교 또는 계산 방식 | 목적 |
+|------------|------------|----------------------|------|
+| **마지막 ATG 기준 검색** | 서열 내 **마지막 ATG** 위치 기준으로 upstream(상류) 영역 추출 | — | 실제 개시 코돈 직전의 조절 부위 분석 |
+| **-35 박스 탐색** | ATG 앞 **34~40 bp** 위치 | Consensus 서열 `TTGACA` 와의 유사도 계산 | 전사 개시 효율 예측 |
+| **-10 박스 탐색** | ATG 앞 **6~12 bp** 위치 | Consensus 서열 `TATAAT` 와의 유사도 계산 | RNA polymerase 결합 효율 예측 |
+| **Shine–Dalgarno (SD) 영역** | ATG 앞 **5~13 bp** 위치 | Consensus 서열 `AGGAGG` 와의 유사도 계산 | 번역 개시 효율 예측 |
+| **AU-rich enhancer** | ATG 앞 **13~20 bp** 위치 | A/T 비율 계산 | mRNA 안정성과 번역 효율 보정 |
+| **결과 산출** | 각 구간별 motif 일치도 및 효율 계산 | 전사 확률, 번역 확률, 두 값의 곱으로 **종합 효율(%)** 산출 | 전사–번역 통합 활력 평가 |
 
--35 박스: ATG 앞 34~40bp 위치, consensus 서열 TTGACA 와 비교하여 전사 효율 추정
+---
 
--10 박스: ATG 앞 6~12bp 위치, consensus 서열 TATAAT 와 비교하여 전사 효율 추정
+## 📊 2. 분석 결과 요약
 
-Shine-Dalgarno (SD) 영역: ATG 앞 5~13bp 위치, AGGAGG 와 비교하여 번역 효율 추정
+| **항목** | **서열 구간** | **유사도 / 확률(%)** | **해석** |
+|-----------|----------------|----------------------|-----------|
+| 🧭 **-35 box** | 34–40 bp upstream | 0.50 | 중간 수준의 전사 인식 서열 |
+| 🧭 **-10 box** | 6–12 bp upstream | 0.67 | `TATAAT`과 유사, 양호한 전사 효율 |
+| 🔹 **Shine–Dalgarno (SD)** | 5–13 bp upstream | 0.17 | 낮은 번역 개시 효율 |
+| ⚡ **Enhancer region** | 13–20 bp upstream | AU 비율 0.43 | 중간 수준의 번역 조절 가능성 |
+| 🧬 **Transcription probability** | — | **58.33 %** | 전사 효율 중간 이상 |
+| 💢 **Translation probability** | — | **27.14 %** | 번역 효율 낮음 |
+| 🔸 **Combined probability** | — | **15.83 %** | 종합 발현 효율 중간 수준 |
 
-AU-rich enhancer: ATG 앞 13~20bp 위치 A/T 비율 계산, 번역 효율에 영향
+---
 
-결과: 각 구간 서열과 motif 일치도, 전사/번역 확률(퍼센티지), 두 확률의 곱으로 종합 효율 산출
+## 🧠 3. 종합 해석
 
-#분석 결과
-| **Feature**                            | **Detected Region (6–8 bp)** | **Similarity / Score** | **Interpretation**                                           |
-| -------------------------------------- | ---------------------------- | ---------------------- | ------------------------------------------------------------ |
-|  **-35 box**                         | `GTCACC`                     | 0.50                   | Moderately conserved promoter recognition site               |
-|  **-10 box**                         | `TTAAAT`                     | 0.67                   | Close to consensus `TATAAT`, likely functional               |
-|  **Shine–Dalgarno (SD)**             | `TTTAAATT`                   | 0.17                   | Weak match to canonical `AGGAGG`, low translation initiation |
-|  **Enhancer region**                  | `GCCAAGA`                    | 0.43                   | AU-rich enhancer sequence                                    |
-|  **Transcription probability**       | —                            | **58.33 %**            | Moderate transcription strength                              |
-|  **Translation probability**         | —                            | **27.14 %**            | Weak translation efficiency                                  |
-|  **Combined expression probability** | —                            | **15.83 %**            | Overall moderate promoter performance                        |
+- **TDH3 promoter**는 명확한 -35 / -10 box를 갖고 있어 **전사 효율이 비교적 높음**  
+- 그러나 **Shine–Dalgarno 서열 유사도가 낮아 번역 효율은 제한적**  
+- AU-rich enhancer가 존재하여 **mRNA 안정성에는 긍정적 영향** 가능  
+
+---
+
+## 📘 4. 요약
+
+| 항목 | 내용 |
+|------|------|
+| **전사 효율** | 약 58% (보통 이상) |
+| **번역 효율** | 약 27% (약함) |
+| **종합 발현 효율** | 약 16% |
+
+---
+
