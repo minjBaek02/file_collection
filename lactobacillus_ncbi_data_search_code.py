@@ -3,7 +3,7 @@ from Bio import Entrez
 import pandas as pd
 from tqdm import tqdm
 
-# --- 본인 이메일로 변경 (필수) ---
+# --- ncbi를 이용하기 위한 이메일 ---
 Entrez.email = "qoralswl159@gmail.com"
 
 # --- 검색 대상: NCBI Nucleotide DB ---
