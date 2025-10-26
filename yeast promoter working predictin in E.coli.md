@@ -1,52 +1,64 @@
-# 🧬 TDH3 Promoter Sequence Analysis
+# 🧬 Promoter Feature Analyzer
+
+이 코드는 **yeast 프로모터 서열**로부터  
+- 전사 개시 관련 motif (-35 box, -10 box),  
+- 번역 개시 관련 motif (Shine–Dalgarno, start codon),  
+- AU-rich enhancer, 퓨린 풍부도(purine content)  
+등을 분석하여  
+**전사 효율, 번역 효율, 그리고 전사된 서열 중 번역될 확률**을 추정합니다.
 
 ---
 
-## 🧩 1. 분석 코드 주요 특징
+## ⚙️ 코드 개요
 
-| 분석 항목 | 탐색 기준 | 비교 또는 계산 방식 | 목적 |
-|------------|------------|----------------------|------|
-| **마지막 ATG 기준 검색** | 서열 내 **마지막 ATG** 위치 기준으로 upstream(상류) 영역 추출 | — | 실제 개시 코돈 직전의 조절 부위 분석 |
-| **-35 박스 탐색** | ATG 앞 **34~40 bp** 위치 | Consensus 서열 `TTGACA` 와의 유사도 계산 | 전사 개시 효율 예측 |
-| **-10 박스 탐색** | ATG 앞 **6~12 bp** 위치 | Consensus 서열 `TATAAT` 와의 유사도 계산 | RNA polymerase 결합 효율 예측 |
-| **Shine–Dalgarno (SD) 영역** | ATG 앞 **5~13 bp** 위치 | Consensus 서열 `AGGAGG` 와의 유사도 계산 | 번역 개시 효율 예측 |
-| **AU-rich enhancer** | ATG 앞 **13~20 bp** 위치 | A/T 비율 계산 | mRNA 안정성과 번역 효율 보정 |
-| **결과 산출** | 각 구간별 motif 일치도 및 효율 계산 | 전사 확률, 번역 확률, 두 값의 곱으로 **종합 효율(%)** 산출 | 전사–번역 통합 활력 평가 |
+### 1️⃣ 주요 함수
 
----
+#### `similarity(region, motif), 이전 코드와 달라진 점`
+- 특정 DNA 서열(`region`)과 motif(`motif`)의 **일치율(0~1)** 계산  
+- 예: `region = "TATAAT"`, `motif = "TATGAT"` → 5/6 = 0.833
+- 이전 code에서 참고논문들을 참조하여 SD 서열이 될 수 있는 후보를 넓히고, 개시코돈 역시 보고된 가능성이 있는 서열을 추가했습니다. 또한, 기존의 전사,번역 확률을 더해서 최종적으로 전사, 번역될 확률을 제시했다면, 이번 코드는 전사가 일어난 서열중에 번역될 확률을 교집합을P **(Translation | Transcription)=Pt​/100Pt​×Pr​/100​=Pr**​ 의 조건부 확률로 계산해 도출합니다.
 
-## 📊 2. 분석 결과 요약
+#### `get_promoter_features(seq)`
+- 입력된 프로모터 서열에서 주요 motif를 탐색하고, 다음 항목들을 계산합니다.
 
-| **항목** | **서열 구간** | **유사도 / 확률(%)** |
-|-----------|----------------|----------------------|
-| 🧭 **-35 box** | 34–40 bp upstream | 0.50 | 
-| 🧭 **-10 box** | 6–12 bp upstream | 0.67 | 
-| 🔹 **Shine–Dalgarno (SD)** | 5–13 bp upstream | 0.17 | 
-| ⚡ **Enhancer region** | 13–20 bp upstream | AU 비율 0.43 | 
-| 🧬 **Transcription probability** | — | **58.33 %** | 
-| 💢 **Translation probability** | — | **27.14 %** |
-| 🔸 **Combined probability** | — | **15.83 %** | 
-
----
-
-## 🧠 3. 종합 해석
-
-- **TDH3 promoter**는 명확한 -35 / -10 box를 갖고 있어 **전사 효율이 비교적 높음**  
-- 그러나 **Shine–Dalgarno 서열 유사도가 낮아 번역 효율은 제한적**  
-- AU-rich enhancer가 존재하여 **mRNA 안정성에는 긍정적 영향** 가능  
-
----
-
-## 📘 4. 요약
-
-| 항목 | 내용 |
+| 항목 | 설명 |
 |------|------|
-| **전사 효율** | 약 58% (보통 이상) |
-| **번역 효율** | 약 27% (약함) |
-| **종합 발현 효율** | 약 16% |
+| **-35_box_region** | ATG 기준 약 -35 위치의 실제 서열 |
+| **-35_box_similarity** | σ70 promoter의 -35 consensus(`TTGACA`)와의 일치율 |
+| **-10_box_region** | ATG 기준 약 -10 위치의 실제 서열 |
+| **-10_box_similarity** | σ70 promoter의 -10 consensus(`TATAAT`)와의 일치율 |
+| **SD_region** | Shine–Dalgarno(RBS) 후보 구간 (ATG 전 15~5bp) |
+| **SD_similarity** | 여러 RBS 변이형과의 최대 일치율 |
+| **purine_content(SD)** | SD 구간 내 A/G 비율 (리보솜 결합 효율에 영향) |
+| **enhancer_region** | ATG 전 20~13bp 구간의 A/T 풍부 영역 |
+| **AU_rich_enhancer** | enhancer 구간의 A+T 비율 |
+| **transcription_probability(%)** | (-35, -10) 일치도 기반 전사 효율 (%) |
+| **translation_probability(%)** | SD, AU-rich enhancer, purine 비율 기반 번역 효율 (%) |
+| **conditional_translation_given_transcription(%)** | 전사된 서열 중 번역될 확률 (%) |
 
 ---
 
-#BUT, update 필요.
-RBS 서열이 넣어준 코드 하나만 적용되지 않고, 시그마 factor의 인식서열도 고려하는 코드가 필요할 것 같음.
+## 🧫 생물학적 배경
+
+| 요소 | 기능 | 대표 Consensus | 참고문헌 |
+|------|------|----------------|-----------|
+| **-35 box** | RNA polymerase 결합 부위 | `TTGACA` | **σ70 promoter (E. coli)** |
+| **-10 box** | 전사 개시 위치 조절 | `TATAAT` | σ70 promoter motif |
+| **Shine–Dalgarno (RBS)** | 리보솜 16S rRNA와 상보적 결합 → 번역 개시 | `AGGAGG` | PubMed [7528374](https://pubmed.ncbi.nlm.nih.gov/7528374), [PMC139613](https://pmc.ncbi.nlm.nih.gov/articles/PMC139613/), [PMC7263185](https://pmc.ncbi.nlm.nih.gov/articles/PMC7263185/) |
+| **AU-rich enhancer** | A/T 풍부한 구간, mRNA 안정성 및 번역 효율 상승 | `A/T-rich` | Translation efficiency studies (BMC Genomics 2015) |
+| **Alternative start codons** | GTG, TTG (드물지만 실제 사용됨) | `GTG`, `TTG` | Gene expression in bacteria (Annu Rev Microbiol 1999) |
+
+---
+
+## 💻 사용 방법
+
+### 1️⃣ 코드 실행
+```python
+# 코드 복사 후 Python 환경에서 실행
+promoter_seq = 'GTGACATTTGACANNNNNNNNNNTATAATNNNNAGGAGGNNNNNNNNNNATGCCCCTTAAT'
+result = get_promoter_features(promoter_seq)
+
+for k, v in result.items():
+    print(f"{k}: {v}")
+
 
