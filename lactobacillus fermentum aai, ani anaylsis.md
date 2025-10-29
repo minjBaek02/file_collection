@@ -1,7 +1,7 @@
 # *Lactobacillus fermentum* 유전체 간 유사도 분석 (ANI & AAI)
 
 ## 1. 개요
-본 연구에서는 *Lactobacillus fermentum* 균주의 완전 유전체 서열을 기반으로  
+*Lactobacillus fermentum* 균주의 완전 유전체 서열을 기반으로  
 **ANI (Average Nucleotide Identity)** 와 **AAI (Average Amino Acid Identity)** 분석을 수행하여  
 균주 간 유전적 유사도 및 진화적 관계를 평가하였다.
 
@@ -40,11 +40,41 @@
 1. NCBI에서 수집한 155개 유전체의 FASTA 파일을 준비한다.  
 2. FastANI를 이용해 모든 유전체 쌍 간의 ANI 값을 계산한다.  
 
-```bash
-fastANI --ql genomes_list.txt --rl genomes_list.txt -o fastani_output.txt
 
-결과 파일(fastani_output.txt)은 쌍별 비교 결과를 포함하며,
-이를 행렬(matrix) 형태로 변환하여 heatmap 시각화에 활용하였다.
+## 4. 분석 결과 요약 (ANI 기반)
 
-<img width="3600" height="3000" alt="ani_heatmap" src="https://github.com/user-attachments/assets/b627bccf-3a5f-45c3-abc7-13ecb0d0f704" />
+분석 결과, *Lactobacillus fermentum*의 155개 완전 유전체 간 **ANI (Average Nucleotide Identity)** 값은  
+대부분 **95% 이상**으로 나타났으며, 이는 거의 모든 균주가 **동일 종 수준**에 해당함을 의미한다.  
+
+> 💡 본 결과는 *L. fermentum* 균주들이 **염기서열 수준에서 매우 높은 유사성**을 가지며,  
+> 종 내 유전체 다양성 수준에서 분화되었음을 시사한다.
+
+---
+
+### 🔍 ANI 해석 기준
+
+| 구간 | 분류 기준 | 의미 |
+|:-----:|:-----------|:------|
+| **ANI ≥ 95%** | 동일 종 (Same species) | 유전체 간 높은 염기 유사성으로 동일 종으로 간주 |
+| **83% ≤ ANI < 95%** | 근연종 (Closely related species) | 유사하지만 별개의 종일 가능성 존재 |
+| **ANI < 83%** | 다른 종 또는 속 (Different species/genus) | 속 수준 이상의 계통적 차이 |
+
+---
+
+### 📊 결과 요약 
+- 분석된 155개 *Lactobacillus fermentum* 유전체 중 **대부분의 쌍이 95% 이상**의 ANI 값을 보임  
+- 일부 샘플은 **83~95% 구간**에 위치하여, *L. fermentum* 내에서 **근연종적 다양성** 가능성이 있음  
+- 83% 미만의 ANI를 보인 샘플은 거의 없었으며, 이는 대부분이 동일 종임을 뒷받침함  
+
+---
+
+### 6.🖼️ Heatmap 결과
+
+<>
+
+> 대부분의 데이터가 진한 색(높은 ANI)을 보여, 유전체 간 높은 상동성을 시각적으로 확인할 수 있었다.
+
+
+
+
 
