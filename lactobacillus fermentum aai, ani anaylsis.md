@@ -42,3 +42,9 @@
 
 ```bash
 fastANI --ql genomes_list.txt --rl genomes_list.txt -o fastani_output.txt
+
+결과 파일(fastani_output.txt)은 쌍별 비교 결과를 포함하며,
+이를 행렬(matrix) 형태로 변환하여 heatmap 시각화에 활용하였다.
+
+<img width="3600" height="3000" alt="ani_heatmap" src="https://github.com/user-attachments/assets/b627bccf-3a5f-45c3-abc7-13ecb0d0f704" />
+
