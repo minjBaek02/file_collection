@@ -104,7 +104,7 @@
 
 > 💡 본 결과는 *L. fermentum* 균주들이 **기능적 유전자 수준에서도 동일 종으로 분류될 수 있는 수준의 유사성**을 유지하고 있음을 시사한다.
 
-📁 **결과 파일:** [aai_heatmap.png](https://github.com/igchoi/IBT610-CompGen/blob/main/2025-Fall/mjbaek/aai_heatmap.png)
+📁 **결과 파일:** https://github.com/igchoi/IBT610-CompGen/blob/5cb68fafe0a5415cf3edc0a7934e5b6c4a9b2bfa/2025-Fall/mjbaek/aai%20heatmap.png
 
 ---
 
@@ -124,7 +124,8 @@
 - 소수의 샘플이 **90~95% 구간**에 위치, 이는 **속 내 종 간의 미세한 기능적 다양성** 가능성을 시사  
 - **70% 미만의 AAI 값은 관찰되지 않음**, 모든 균주가 동일 속 (*Lactobacillus*) 내에서 밀접한 유연관계를 가짐을 확인  
 
-결과 파일: 
+
+
 
 
 
