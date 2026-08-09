@@ -1,0 +1,10 @@
+Accession,Protein name (원본),문제,판단 근거,대표서열 여부(95% 클러스터)
+I1RVT5,"Chromosome 2, complete genome",단백질이 아닌 염색체 서열 자체가 매칭됨,도메인 오탐,대표서열 아님(비대표 멤버로 흡수됨)
+A2QL98,"Contig An06c0020, genomic contig",단백질이 아닌 게놈 contig,도메인 오탐,대표서열
+Q2U774,"DNA, SC124",단백질이 아닌 DNA 서열 항목,도메인 오탐,대표서열 아님(비대표 멤버로 흡수됨)
+A0A8H2ZX55,"Da213db7-bded-... (UUID)",정상적인 이름이 아닌 데이터 오류로 판단,메타데이터 오류,대표서열
+A0AA37P6V8,"Polyol transporter 1",완전히 다른 계열(당 수송체),도메인 오탐 가능성,대표서열
+A0AAD4GZR0,"Chitin synthase, class 1",완전히 다른 효소,도메인 오탐 가능성,대표서열
+A0A8H5TIV2,"Terpene synthase",PKS와 무관한 계열,도메인 오탐,대표서열
+A0A8H5UDU9,"Terpene synthase",PKS와 무관한 계열,도메인 오탐,대표서열 아님(비대표 멤버로 흡수됨)
+A0A8H5Y3T5,"Terpene synthase",PKS와 무관한 계열,도메인 오탐,대표서열
